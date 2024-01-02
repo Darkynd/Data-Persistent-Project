@@ -15,13 +15,6 @@ using UnityEditor;
 [DefaultExecutionOrder(1000)]
 public class MenuUIHandler : MonoBehaviour
 {
-    public Text scoreText;
-
-    public void ShowName() 
-    {
-        scoreText.text = "Best Score : " + GameManager.Instance.GetName() + " : 0"; 
-    }
-
     public void StartNewGame(int sceneID) 
     {
         SceneManager.LoadScene(sceneID);
