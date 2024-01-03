@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour
     public InputField inputName;
     public Text scoreText;
 
-    private string playerName;
-    private int score;
+    private string currentPlayerName;
+    private string bestPlayerName;
+    private int currentPlayerScore;
+    private int highScore;
 
     public void ShowName()
     {
@@ -18,13 +20,29 @@ public class GameManager : MonoBehaviour
 
     public void SetName() 
     {
-        playerName = inputName.text;
-        Debug.Log(playerName);
+        currentPlayerName = inputName.text;       
     }
 
     public string GetName() 
     {
-        return playerName;
+        return currentPlayerName;
+    }
+
+    public int GetHighScore() 
+    {
+        return highScore;
+    }
+
+    public void SetBestPlayerScore(int finalScore) 
+    {
+        currentPlayerScore = finalScore;
+        Debug.Log(currentPlayerScore);
+
+        if (currentPlayerScore > highScore) 
+        {
+            highScore = currentPlayerScore;
+            currentPlayerScore = 0;
+        }
     }
 
     private void Awake()
@@ -35,6 +53,9 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        currentPlayerScore = 0;
+        highScore = 0;
+        Debug.Log(highScore);
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
