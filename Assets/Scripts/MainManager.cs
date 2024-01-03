@@ -22,8 +22,8 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // scoreText.text = GameManager.Instance.GetName() + " : Score : 0";
-        highScoreText.text = $"Best Score : {GameManager.Instance.GetName()} : {GameManager.Instance.GetHighScore()}";
+        scoreText.text = $"{GameManager.Instance.GetCurrentPlayerName()} : Score: 0";
+        highScoreText.text = $"Best Score : {GameManager.Instance.GetBestPlayerName()} : {GameManager.Instance.GetHighScore()}";
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -60,7 +60,9 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+                SceneManager.LoadScene("Menu");
             }
         }
     }
@@ -68,15 +70,21 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        scoreText.text = $"{GameManager.Instance.GetName()} : Score : {m_Points}";
+        scoreText.text = $"{GameManager.Instance.GetCurrentPlayerName()} : Score : {m_Points}";
+
+        if (m_Points > GameManager.Instance.GetHighScore())
+        {
+            GameManager.Instance.SetHighScore(m_Points);
+            GameManager.Instance.SetBestPlayerName();
+
+            highScoreText.text = $"Best Score : {GameManager.Instance.GetBestPlayerName()} : {GameManager.Instance.GetHighScore()}";
+        }
+        else return;
     }
 
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
-
-        GameManager.Instance.SetBestPlayerScore(m_Points);        
-        highScoreText.text = $"Best Score : {GameManager.Instance.GetName()} : {GameManager.Instance.GetHighScore()}";
     }
 }

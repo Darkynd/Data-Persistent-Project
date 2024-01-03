@@ -4,46 +4,28 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
+
     public InputField inputName;
-    public Text scoreText;
+    public Text highScoreText;  
 
     private string currentPlayerName;
     private string bestPlayerName;
-    private int currentPlayerScore;
     private int highScore;
 
-    public void ShowName()
-    {
-        scoreText.text = "Best Score : " + Instance.GetName() + " : 0";
-    }
+    public string GetCurrentPlayerName() { return currentPlayerName; }
 
-    public void SetName() 
+    public void SetCurrentPlayerName() 
     {
-        currentPlayerName = inputName.text;       
-    }
+        currentPlayerName = inputName.text;     
+    } 
 
-    public string GetName() 
-    {
-        return currentPlayerName;
-    }
+    public int GetHighScore() { return highScore; }
 
-    public int GetHighScore() 
-    {
-        return highScore;
-    }
+    public void SetHighScore(int finalScore) => highScore = finalScore;
 
-    public void SetBestPlayerScore(int finalScore) 
-    {
-        currentPlayerScore = finalScore;
-        Debug.Log(currentPlayerScore);
+    public string GetBestPlayerName() { return bestPlayerName; }
 
-        if (currentPlayerScore > highScore) 
-        {
-            highScore = currentPlayerScore;
-            currentPlayerScore = 0;
-        }
-    }
+    public void SetBestPlayerName() => bestPlayerName = currentPlayerName;
 
     private void Awake()
     {
@@ -53,9 +35,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        currentPlayerScore = 0;
         highScore = 0;
-        Debug.Log(highScore);
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
