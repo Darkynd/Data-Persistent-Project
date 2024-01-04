@@ -61,7 +61,7 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
+                // Destroy(GameObject.Find("DDOL"));
                 SceneManager.LoadScene("Menu");
             }
         }

@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        highScore = 0;
+        // highScore = 0;
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
