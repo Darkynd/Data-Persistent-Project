@@ -15,6 +15,16 @@ using UnityEditor;
 [DefaultExecutionOrder(1000)]
 public class MenuUIHandler : MonoBehaviour
 {
+    public InputField inputName;
+    public Text highScoreText;
+
+    public void Start() 
+    {
+        highScoreText.text = GameManager.Instance.GetHighScoreString();
+    } 
+
+    public void SetCurrentPlayerName() => GameManager.Instance.SetCurrentPlayerName(inputName.text);
+
     public void StartNewGame(int sceneID) 
     {
         SceneManager.LoadScene(sceneID);

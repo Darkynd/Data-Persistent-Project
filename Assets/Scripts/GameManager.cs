@@ -1,31 +1,61 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public InputField inputName;
-    public Text highScoreText;  
-
-    private string currentPlayerName;
-    private string bestPlayerName;
+    private string playerName;
     private int highScore;
+    private string highScoreString;
 
-    public string GetCurrentPlayerName() { return currentPlayerName; }
-
-    public void SetCurrentPlayerName() 
+    [System.Serializable]
+    class SaveData 
     {
-        currentPlayerName = inputName.text;     
-    } 
+        public string playerName;
+        public int highScore;
+        public string highScoreString; 
+    }
+
+    public void SaveHighScore() 
+    {
+        SaveData data = new SaveData();
+        data.playerName = playerName;
+        data.highScore = highScore;
+        data.highScoreString = highScoreString;
+
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(Application.persistentDataPath + "highscores.json", json);
+    }
+
+    public void LoadHighScore() 
+    {
+        string path = Application.persistentDataPath + "highscores.json";
+
+        if (File.Exists(path)) 
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            playerName = data.playerName;
+            highScore = data.highScore;
+            highScoreString = data.highScoreString;
+        }
+    }
+
+    public string GetCurrentPlayerName() { return playerName; }
+
+    public void SetCurrentPlayerName(string name) { playerName = name; } 
 
     public int GetHighScore() { return highScore; }
 
-    public void SetHighScore(int finalScore) => highScore = finalScore;
+    public string GetHighScoreString() { return highScoreString; }
 
-    public string GetBestPlayerName() { return bestPlayerName; }
-
-    public void SetBestPlayerName() => bestPlayerName = currentPlayerName;
+    public void SetHighScore(string finalScoreString, int finalScore) 
+    {
+        highScoreString = finalScoreString;
+        highScore = finalScore;
+    } 
 
     private void Awake()
     {
@@ -34,9 +64,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        // highScore = 0;
+       
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        LoadHighScore();
     }
 }
