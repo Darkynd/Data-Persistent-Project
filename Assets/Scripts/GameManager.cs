@@ -20,9 +20,9 @@ public class GameManager : MonoBehaviour
 
     public void SaveHighScore() 
     {
-        SaveData data = new SaveData();
-        data.playerName = playerName;
-        data.highScore = highScore;
+        SaveData data = new SaveData();       
+        data.playerName = playerName;      
+        data.highScore = highScore;        
         data.highScoreString = highScoreString;
 
         string json = JsonUtility.ToJson(data);
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         if (File.Exists(path)) 
         {
             string json = File.ReadAllText(path);
+
             SaveData data = JsonUtility.FromJson<SaveData>(json);
             playerName = data.playerName;
             highScore = data.highScore;
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
         }
        
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);       
         LoadHighScore();
     }
 }
